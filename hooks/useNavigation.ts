@@ -8,5 +8,4 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export const useNavigation = () =>
   useNativeNavigation<NativeStackNavigationProp<Routes>>();
 
-export const useRoute = () =>
-  useNativeRoute();
+export const useRoute = () => useNativeRoute();

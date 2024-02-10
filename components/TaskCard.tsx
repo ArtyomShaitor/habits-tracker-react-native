@@ -1,4 +1,4 @@
-import { Text, View } from "react-native"
+import { Text, View } from "react-native";
 import { Checkbox } from "./Checkbox";
 
 interface TaskCardProps {
@@ -16,12 +16,12 @@ export const TaskCard = ({ text, onPress, isDone }: TaskCardProps) => {
       </View>
       <Text
         className={`text-lg font-medium
-          ${isDone ? 'line-through' : ''}
-          ${isDone ? 'text-stone-300' : 'text-stone-800'}
+          ${isDone ? "line-through" : ""}
+          ${isDone ? "text-stone-300" : "text-stone-800"}
         `}
       >
         {text}
       </Text>
     </View>
-  )
-}
+  );
+};

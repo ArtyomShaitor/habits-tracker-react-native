@@ -1,5 +1,5 @@
 import { useNavigation } from "@/hooks/useNavigation";
-import { Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface SettingsInputProps {
   value: string;
@@ -11,7 +11,7 @@ export const SettingsInput = ({ value, placeholder }: SettingsInputProps) => {
 
   const saveAndClose = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <View className="relative flex-1">
@@ -23,9 +23,12 @@ export const SettingsInput = ({ value, placeholder }: SettingsInputProps) => {
         {value}
       </TextInput>
 
-      <TouchableOpacity onPress={saveAndClose} className="w-full absolute bottom-16 rounded-lg justify-center items-center py-4 bg-orange-500">
+      <TouchableOpacity
+        onPress={saveAndClose}
+        className="w-full absolute bottom-16 rounded-lg justify-center items-center py-4 bg-orange-500"
+      >
         <Text className="text-white text-base font-bold">Update</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};

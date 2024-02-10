@@ -1,4 +1,4 @@
-import { TextInput } from "react-native"
+import { TextInput } from "react-native";
 
 interface AddTaskInputProps {
   value?: string;
@@ -14,5 +14,5 @@ export const AddTaskInput = ({ value, placeholder }: AddTaskInputProps) => {
     >
       123
     </TextInput>
-  )
-}
+  );
+};

@@ -3,7 +3,18 @@ import { AddTaskInput } from "@/components/AddTaskInput";
 import { TaskItem } from "@/components/TaskItem";
 import { useNavigation } from "@/hooks/useNavigation";
 import { useState } from "react";
-import { FlatList, Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, TouchableOpacity, TouchableOpacityBase, TouchableWithoutFeedback, View } from "react-native"
+import {
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityBase,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { ChevronLeftIcon, PlusIcon } from "react-native-heroicons/outline";
 
 export const TasksListScreen = () => {
@@ -14,11 +25,10 @@ export const TasksListScreen = () => {
     <SafeAreaView className="flex-1 bg-stone-100">
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className="relative flex-1 pt-5 gap-y-10">
-
             {/* Header */}
             <View className="px-3">
               <TouchableOpacity
@@ -42,16 +52,16 @@ export const TasksListScreen = () => {
                   key={item.id}
                   id={item.id}
                   text={item.text}
-                  onPress={() => navigation.navigate('TaskSettings', { task: item })}
+                  onPress={() =>
+                    navigation.navigate("TaskSettings", { task: item })
+                  }
                 />
               )}
             />
 
             <View className="flex-row px-5 bottom-4">
               <AddTaskInput placeholder="Write a task..." />
-              <TouchableOpacity
-                className="rounded-full justify-center items-center p-3 bg-orange-500"
-              >
+              <TouchableOpacity className="rounded-full justify-center items-center p-3 bg-orange-500">
                 <PlusIcon color="white" />
               </TouchableOpacity>
             </View>
@@ -59,5 +69,5 @@ export const TasksListScreen = () => {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  )
-}
+  );
+};

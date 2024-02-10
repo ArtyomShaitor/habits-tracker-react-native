@@ -5,4 +5,3 @@ export type Routes = {
   TasksList: undefined;
   TaskSettings: { task: Task };
 };
-

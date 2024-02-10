@@ -14,7 +14,7 @@ export const AddTaskInput = ({
   return (
     <TextInput
       style={{ fontSize: 16 }}
-      className="flex-1 mr-4 flex-row items-center py-0 bg-white px-5 shadow-sm rounded-full"
+      className="flex-1 mr-4 flex-row items-center py-0 bg-white px-5 shadow-lg rounded-full"
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}

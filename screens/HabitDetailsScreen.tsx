@@ -10,9 +10,9 @@ type HabitDetailsProps = NativeStackScreenProps<Routes, "HabitDetails">;
 
 export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
   const {
-    params: { task },
+    params: { habit },
   } = route;
-  const { name, id } = task;
+  const { name, id } = habit;
 
   const navigation = useNavigation();
   const { updateHabit } = useDummyHabbits();

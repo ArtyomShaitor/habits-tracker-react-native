@@ -24,8 +24,10 @@ export const HabitsListScreen = () => {
 
   const addNewHabit = (name: string) => {
     Keyboard.dismiss();
-    addHabit(name);
+    const habit = addHabit(name);
     setHabitName("");
+
+    navigation.navigate("HabitDetails", { habit });
   };
 
   return (
@@ -52,21 +54,28 @@ export const HabitsListScreen = () => {
             {/* List */}
             <FlatList
               className="flex-col flex-1 px-5 gap-y-4"
-              contentContainerStyle={{ rowGap: 16 }}
+              contentContainerStyle={{
+                rowGap: 16,
+                paddingBottom: 90,
+              }}
               data={habits}
-              renderItem={({ item }) => (
+              renderItem={({ item: habit }) => (
                 <TaskItem
-                  key={item.id}
-                  id={item.id}
-                  text={item.name}
-                  onPress={() =>
-                    navigation.navigate("HabitDetails", { task: item })
-                  }
+                  key={habit.id}
+                  id={habit.id}
+                  text={habit.name}
+                  onPress={() => navigation.navigate("HabitDetails", { habit })}
                 />
               )}
             />
 
-            <View className="flex-row px-5 bottom-4">
+            <View className="absolute flex-row px-5 bottom-0 pb-4 pt-5">
+              {/* {Keyboard.isVisible() && (
+                <LinearGradient
+                  colors={["transparent", "rgba(0, 0, 0, 0.6)"]}
+                  className="absolute left-0 right-0 top-0 bottom-0"
+                />
+              )} */}
               <AddTaskInput
                 value={habitName}
                 onChangeText={setHabitName}

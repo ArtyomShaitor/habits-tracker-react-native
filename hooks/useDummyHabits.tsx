@@ -5,14 +5,14 @@ import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 
 interface Context {
   habits: Habit[];
-  addHabit: (name: Habit["name"]) => void;
+  addHabit: (name: Habit["name"]) => Habit;
   removeHabit: (id: Habit["id"]) => void;
   updateHabit: (id: Habit["id"], name: Habit["name"]) => void;
 }
 
 const context = createContext<Context>({
   habits: [],
-  addHabit: () => {},
+  addHabit: () => ({}) as Habit,
   removeHabit: () => {},
   updateHabit: () => {},
 });
@@ -25,7 +25,9 @@ export const DummyHabitsProvider = ({ children }: { children: ReactNode }) => {
   const [habits, setHabits] = useState(() => DUMMY_HABITS);
 
   const addHabit = (name: Habit["name"]) => {
-    setHabits((habits) => [...habits, createHabit(name)]);
+    const newHabit = createHabit(name);
+    setHabits((habits) => [...habits, newHabit]);
+    return newHabit;
   };
 
   const removeHabit = (id: Habit["id"]) => {

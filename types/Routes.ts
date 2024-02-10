@@ -1,7 +1,7 @@
-import { Task } from "./Task";
+import { Habit } from "./Task";
 
 export type Routes = {
   Home: undefined;
-  TasksList: undefined;
-  TaskSettings: { task: Task };
+  HabitsList: undefined;
+  HabitDetails: { task: Habit };
 };

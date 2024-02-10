@@ -1,34 +1,33 @@
-import type { Task } from "@/types/Task";
+import type { Habit } from "@/types/Task";
+import type { Daily, Weekly } from "@/types/Dates";
+import { uuid } from "@/utils/uuid";
 
-export const DUMMY_TASKS: Task[] = [
+export const DUMMY_HABITS: Habit[] = [
   {
-    id: 1,
-    text: "Clean the house",
-    isDone: false,
+    id: uuid(),
+    name: "Make reservation",
+    schedule: {
+      type: "single",
+      date: {
+        date: "2024-03-01",
+        time: "13:00",
+      },
+    },
   },
   {
-    id: 2,
-    text: "Feed the dog",
-    isDone: false,
+    id: uuid(),
+    name: "Feed the dog in the morning",
+    schedule: {
+      type: "daily",
+      time: "09:00",
+    } as Daily,
   },
   {
-    id: 3,
-    text: "Feed the dog",
-    isDone: false,
-  },
-  {
-    id: 4,
-    text: "Feed the dog",
-    isDone: false,
-  },
-  {
-    id: 5,
-    text: "Feed the dog",
-    isDone: false,
-  },
-  {
-    id: 6,
-    text: "Feed the dog",
-    isDone: false,
+    id: uuid(),
+    name: "Do groceries",
+    schedule: {
+      type: "weekly",
+      dates: ["thu"],
+    } as Weekly,
   },
 ];

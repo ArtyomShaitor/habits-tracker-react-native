@@ -1,16 +1,14 @@
-export type Task = {
-  id: number | string;
-  text: string;
-  isDone: boolean;
-};
-
-type SingleTime = {
-  date: Date;
-  time: Date;
-};
+import { Daily, SingleTime, Weekdays, Weekends, Weekly } from "./Dates";
 
 export type Habit = {
   id: string;
   name: string;
-  schedule: SingleTime;
+  schedule: SingleTime | Daily | Weekly | Weekdays | Weekends;
+};
+
+export type Task = {
+  id: string;
+  habbitId: Habit["id"];
+  text: string;
+  isDone: boolean;
 };

@@ -8,28 +8,11 @@ import {
 import { ListBulletIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@/hooks/useNavigation";
 import { TaskCard } from "@/components/TaskCard";
-import { useState } from "react";
-import { DUMMY_TASKS } from "@/DUMMY_TASKS";
+import { useDummyTasks } from "@/hooks/useDummyTasks";
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const [tasks, setTasks] = useState(DUMMY_TASKS);
-
-  const updateTask = (id: any, isDone: boolean) => {
-    setTasks((tasks) => {
-      const newTasks = [...tasks];
-      const task = newTasks.find((task) => task.id === id);
-      if (!task) {
-        return tasks;
-      }
-
-      if (task) {
-        task.isDone = isDone;
-      }
-
-      return newTasks;
-    });
-  };
+  const { tasks, changeIsDone } = useDummyTasks();
 
   return (
     <SafeAreaView className="flex-1 bg-stone-100">
@@ -39,7 +22,7 @@ export const HomeScreen = () => {
           <Text className="text-3xl text-stone-700 font-bold">
             Today's Tasks
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("TasksList")}>
+          <TouchableOpacity onPress={() => navigation.navigate("HabitsList")}>
             <ListBulletIcon color="#44403c" />
           </TouchableOpacity>
         </View>
@@ -55,7 +38,7 @@ export const HomeScreen = () => {
               id={item.id}
               text={item.text}
               isDone={item.isDone}
-              onPress={(isDone) => updateTask(item.id, isDone)}
+              onPress={(isDone) => changeIsDone(item.id, isDone)}
             />
           )}
         />

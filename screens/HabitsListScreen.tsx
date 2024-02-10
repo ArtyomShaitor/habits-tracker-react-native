@@ -23,6 +23,9 @@ export const HabitsListScreen = () => {
   const { habits, addHabit } = useDummyHabbits();
 
   const addNewHabit = (name: string) => {
+    if (!name.trim()) {
+      return;
+    }
     Keyboard.dismiss();
     const habit = addHabit(name);
     setHabitName("");

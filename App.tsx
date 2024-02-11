@@ -6,6 +6,7 @@ import { HabitsListScreen } from "@/screens/HabitsListScreen";
 import { HabitDetailsScreen } from "@/screens/HabitDetailsScreen";
 import { DummyTasksProvider } from "./hooks/useDummyTasks";
 import { DummyHabitsProvider } from "./hooks/useDummyHabits";
+import { SelectOptionScreen } from "./screens/SelectOptionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,11 @@ export default function App() {
                   // @ts-ignore
                   component={HabitDetailsScreen}
                   options={{ headerTitle: "Details" }}
+                />
+                <Stack.Screen
+                  name="SelectOption"
+                  // @ts-ignore
+                  component={SelectOptionScreen}
                 />
               </Stack.Group>
             </Stack.Navigator>

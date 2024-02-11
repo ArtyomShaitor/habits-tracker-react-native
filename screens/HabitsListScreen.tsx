@@ -75,12 +75,6 @@ export const HabitsListScreen = () => {
             />
 
             <View className="absolute flex-row px-5 bottom-0 pb-4 pt-5">
-              {/* {Keyboard.isVisible() && (
-                <LinearGradient
-                  colors={["transparent", "rgba(0, 0, 0, 0.6)"]}
-                  className="absolute left-0 right-0 top-0 bottom-0"
-                />
-              )} */}
               <AddTaskInput
                 value={habitName}
                 onChangeText={setHabitName}

@@ -1,6 +1,7 @@
 import { Habit, Task } from "@/types/Task";
 import { isToday } from "./time";
 import { uuid } from "@/utils/uuid";
+import { Daily, SingleTime, Weekly } from "@/types/Dates";
 
 export const createTask = (text: string, habbitId: Habit["id"]): Task => ({
   id: uuid(),
@@ -9,17 +10,53 @@ export const createTask = (text: string, habbitId: Habit["id"]): Task => ({
   isDone: false,
 });
 
+export const createDefaultSchedule = (
+  type: Habit["schedule"]["type"],
+): Habit["schedule"] => {
+  if (type === "single") {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    return {
+      type: "single",
+      date: new Date(),
+    } as SingleTime;
+  }
+
+  if (type === "daily") {
+    const time = new Date();
+    time.setMinutes(time.getMinutes() + 60);
+
+    return {
+      type: "daily",
+      time,
+    } as Daily;
+  }
+
+  if (type === "weekly") {
+    const time = new Date();
+    time.setMinutes(time.getMinutes() + 60);
+
+    return {
+      type: "weekly",
+      dates: ["mon"],
+      time,
+    } as Weekly;
+  }
+
+  throw new Error(`There is no "${type}" schedule type`);
+};
+
 export const createHabit = (name: string): Habit => {
   const time = new Date();
   time.setMinutes(time.getMinutes() + 60);
 
+  const schedule = createDefaultSchedule("daily");
+
   return {
     id: uuid(),
     name,
-    schedule: {
-      type: "daily",
-      time,
-    },
+    schedule,
   };
 };
 

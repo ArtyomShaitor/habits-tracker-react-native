@@ -12,6 +12,7 @@ export type Daily = {
 
 export type Weekly<D extends Day = Day> = {
   type: "weekly";
+  time: Date;
   dates: D[];
 };
 

@@ -32,7 +32,8 @@ export const DUMMY_HABITS: Habit[] = [
     name: "Do groceries",
     schedule: {
       type: "weekly",
-      dates: ["sat"],
+      time: new Date("2024-02-10 17:00"),
+      dates: ["tue", "sat"],
     } as Weekly,
   },
 ];

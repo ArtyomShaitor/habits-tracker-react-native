@@ -1,5 +1,5 @@
 import { DUMMY_HABITS } from "@/DUMMY_TASKS";
-import type { Habit } from "@/types/Task";
+import type { Habit, Schedules } from "@/types/Task";
 import { createHabit } from "@/utils/habits";
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 
@@ -8,18 +8,36 @@ interface Context {
   addHabit: (name: Habit["name"]) => Habit;
   removeHabit: (id: Habit["id"]) => void;
   updateHabit: (id: Habit["id"], name: Habit["name"]) => void;
+  updateHabitSchedule: <S extends Schedules>(
+    id: Habit["id"],
+    schedule: S,
+  ) => void;
 }
+
+export type UseHabit<S extends Schedules> = Context & {
+  habit: Habit<S> | undefined;
+};
 
 const context = createContext<Context>({
   habits: [],
   addHabit: () => ({}) as Habit,
   removeHabit: () => {},
   updateHabit: () => {},
+  updateHabitSchedule: () => {},
 });
 
 const { Provider } = context;
 
 export const useDummyHabbits = () => useContext(context);
+
+export function useHabit(id: Habit["id"]) {
+  const habitsContext = useDummyHabbits();
+  const { habits } = habitsContext;
+
+  const habit = habits.find((habit) => habit.id === id);
+
+  return { ...habitsContext, habit };
+}
 
 export const DummyHabitsProvider = ({ children }: { children: ReactNode }) => {
   const [habits, setHabits] = useState(() => DUMMY_HABITS);
@@ -64,12 +82,36 @@ export const DummyHabitsProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const updateHabitSchedule = <S extends Schedules>(
+    id: Habit["id"],
+    schedule: S,
+  ) => {
+    setHabits((habits) => {
+      const newhabits = [...habits];
+      const indexToUpdate = newhabits.findIndex((task) => task.id === id);
+
+      if (indexToUpdate < 0) {
+        return habits;
+      }
+
+      const habit = habits[indexToUpdate];
+      const newHabit = {
+        ...habit,
+        schedule,
+      } as Habit<S>;
+      newhabits.splice(indexToUpdate, 1, newHabit);
+
+      return newhabits;
+    });
+  };
+
   const value = useMemo<Context>(
     () => ({
       habits,
       addHabit,
       removeHabit,
       updateHabit,
+      updateHabitSchedule,
     }),
     [habits],
   );

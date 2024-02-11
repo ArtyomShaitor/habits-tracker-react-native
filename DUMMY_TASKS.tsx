@@ -9,7 +9,7 @@ export const DUMMY_HABITS: Habit[] = [
     schedule: {
       type: "single",
       date: {
-        date: "2024-02-11",
+        date: "2024-02-10",
         time: "23:00",
       },
     },

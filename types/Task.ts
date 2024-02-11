@@ -1,9 +1,11 @@
 import { Daily, SingleTime, Weekdays, Weekends, Weekly } from "./Dates";
 
-export type Habit = {
+export type Schedules = SingleTime | Daily | Weekly | Weekdays | Weekends;
+
+export type Habit<S extends Schedules = Schedules> = {
   id: string;
   name: string;
-  schedule: SingleTime | Daily | Weekly | Weekdays | Weekends;
+  schedule: S;
 };
 
 export type Task = {

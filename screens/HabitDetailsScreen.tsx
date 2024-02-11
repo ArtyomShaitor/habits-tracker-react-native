@@ -1,11 +1,17 @@
+import { DatePicker, Input, InputGroup } from "@/components/SettingsInputs";
 import { useAlert } from "@/hooks/useAlert";
 import { useDummyHabbits } from "@/hooks/useDummyHabits";
 import { useNavigation } from "@/hooks/useNavigation";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useCallback, useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { TrashIcon } from "react-native-heroicons/outline";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { CloseProvider } from "@/hooks/useOutsideClose";
+import { DateTime, SingleTime } from "@/types/Dates";
+import { SingleScheduleSettings } from "@/components/SingleScheduleSettings";
+import { Habit } from "@/types/Task";
 
 type HabitDetailsProps = NativeStackScreenProps<Routes, "HabitDetails">;
 
@@ -19,6 +25,8 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
   const { alert } = useAlert();
   const { updateHabit, removeHabit } = useDummyHabbits();
   const [input, setInput] = useState(name);
+
+  const [localHabitInfo, setLocalHabitInfo] = useState(habit);
 
   const saveAndClose = () => {
     updateHabit(id, input);
@@ -49,32 +57,36 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
   };
 
   return (
-    <View className="flex-1 px-10 pt-5">
-      <View className="relative flex-1">
-        <TextInput
-          style={{ fontSize: 16 }}
-          className="flex-row items-center bg-white pl-6 pr-4 py-3 border-[1px] border-stone-200 rounded-xl"
-          placeholder="Enter the task name..."
-          value={input}
-          onChangeText={setInput}
-        />
+    <CloseProvider>
+      <View className="flex-1 px-10 pt-5">
+        <View className="relative flex-1" style={{ rowGap: 16 }}>
+          <Input
+            value={input}
+            onChangeText={setInput}
+            placeholder="Enter the task name..."
+          />
 
-        <View className="w-full absolute bottom-16 gap-y-4">
-          <TouchableOpacity
-            onPress={saveAndClose}
-            className=" rounded-lg justify-center items-center py-4 bg-orange-500"
-          >
-            <Text className="text-white text-base font-bold">Save</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={removeHabitHandler}
-            className="flex-row rounded-lg justify-center items-center py-2 gap-x-1"
-          >
-            <TrashIcon color="rgb(239 68 68)" />
-            <Text className="text-red-500 text-base font-bold">Delete</Text>
-          </TouchableOpacity>
+          {habit.schedule.type === "single" && (
+            <SingleScheduleSettings habitId={id} />
+          )}
+
+          <View className="w-full absolute bottom-16 gap-y-4">
+            <TouchableOpacity
+              onPress={saveAndClose}
+              className=" rounded-lg justify-center items-center py-4 bg-orange-500"
+            >
+              <Text className="text-white text-base font-bold">Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={removeHabitHandler}
+              className="flex-row rounded-lg justify-center items-center py-2 gap-x-1"
+            >
+              <TrashIcon color="rgb(239 68 68)" />
+              <Text className="text-red-500 text-base font-bold">Delete</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </CloseProvider>
   );
 };

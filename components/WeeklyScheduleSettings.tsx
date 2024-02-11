@@ -1,12 +1,13 @@
 import { Weekly } from "@/types/Dates";
-import { Button, InputGroup, TimePicker } from "./SettingsInputs";
+import { SettingsButton, InputGroup, TimePicker } from "./SettingsInputs";
 import { Habit } from "@/types/Task";
 import { UseHabit, useHabit } from "@/hooks/useDummyHabits";
-import { Text, DeviceEventEmitter } from "react-native";
+import { DeviceEventEmitter } from "react-native";
 import { useEffect, useMemo } from "react";
 import { NotUndefined } from "@/types/Helpers";
 import { DAYS_NAMES, DAYS_OPTIONS } from "@/config";
 import { useNavigation } from "@/hooks/useNavigation";
+import { CalendarDaysIcon } from "react-native-heroicons/outline";
 
 interface WeeklyScheduleSettingsProps {
   habitId: Habit["id"];
@@ -69,7 +70,8 @@ export const WeeklyScheduleSettings = ({
   return (
     <InputGroup>
       <TimePicker value={time} onChangeDate={updateTime} />
-      <Button
+      <SettingsButton
+        icon={CalendarDaysIcon}
         onPress={() =>
           navigation.navigate("SelectOption", {
             headerTitle: "Select days",
@@ -81,7 +83,7 @@ export const WeeklyScheduleSettings = ({
         }
       >
         {checkedLabel}
-      </Button>
+      </SettingsButton>
     </InputGroup>
   );
 };

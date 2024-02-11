@@ -1,12 +1,20 @@
-import { Button, Input, InputGroup } from "@/components/SettingsInputs";
+import { SettingsButton, Input, InputGroup } from "@/components/SettingsInputs";
 import { useAlert } from "@/hooks/useAlert";
 import { useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
-import { useNavigation } from "@/hooks/useNavigation";
+import { useNavigation, useNavigationOption } from "@/hooks/useNavigation";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
-import { DeviceEventEmitter, Text, TouchableOpacity, View } from "react-native";
-import { TrashIcon } from "react-native-heroicons/outline";
+import {
+  Button,
+  DeviceEventEmitter,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+import { ArrowPathIcon, TrashIcon } from "react-native-heroicons/outline";
 import { CloseProvider } from "@/hooks/useOutsideClick";
 import { SingleScheduleSettings } from "@/components/SingleScheduleSettings";
 import { RedirectBack } from "@/components/RedirectBack";
@@ -28,11 +36,29 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
     return <RedirectBack />;
   }
 
+  const [habitDraft] = useState(habit);
+
   const { name, id } = habit;
 
   const navigation = useNavigation();
   const { alert } = useAlert();
-  const { updateHabit, removeHabit, updateHabitSchedule } = useDummyHabbits();
+  const { updateHabitName, removeHabit, updateHabitSchedule } =
+    useDummyHabbits();
+
+  const onCancel = () => {
+    updateHabitName(id, habitDraft.name);
+    updateHabitSchedule(id, habitDraft.schedule);
+    navigation.goBack();
+  };
+
+  useNavigationOption({
+    headerLeft: () => {
+      return <Button title="Cancel" onPress={onCancel} />;
+    },
+    headerRight: () => {
+      return <Button title="Done" onPress={() => navigation.goBack()} />;
+    },
+  });
 
   useEffect(() => {
     const unsub = DeviceEventEmitter.addListener(
@@ -68,56 +94,63 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
       return;
     }
     removeHabit(id);
-    // navigation.goBack();
   };
 
   return (
     <CloseProvider>
-      <View className="flex-1 px-10 pt-5">
-        <View className="relative flex-1" style={{ rowGap: 16 }}>
-          <InputGroup>
-            <Input
-              value={name}
-              onChangeText={(newName) => updateHabit(id, newName)}
-              placeholder="Enter the task name..."
-            />
-            <Button
-              onPress={() => {
-                navigation.navigate("SelectOption", {
-                  headerTitle: "Select schedule type",
-                  data: SCHEDULE_TYPE_OPTIONS,
-                  eventName: "scheduleTypeChanged",
-                  min: 1,
-                  max: 1,
-                  checked: [habit.schedule.type],
-                });
-              }}
-            >
-              {SCHEDULE_TYPE_NAMES[habit.schedule.type]}
-            </Button>
-          </InputGroup>
-
-          {habit.schedule.type === "single" && (
-            <SingleScheduleSettings habitId={id} />
-          )}
-
-          {habit.schedule.type === "daily" && (
-            <DailyScheduleSettings habitId={id} />
-          )}
-
-          {habit.schedule.type === "weekly" && (
-            <WeeklyScheduleSettings habitId={id} />
-          )}
-
-          <TouchableOpacity
-            onPress={removeHabitHandler}
-            className="flex-row rounded-lg justify-center items-center py-2 mt-5 gap-x-1"
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View className="flex-1 px-5 pt-5">
+          <View
+            className="relative flex-1 flex-col items-center"
+            style={{ rowGap: 16 }}
           >
-            <TrashIcon color="rgb(239 68 68)" />
-            <Text className="text-red-500 text-base font-bold">Delete</Text>
-          </TouchableOpacity>
+            <View className="w-full" style={{ rowGap: 16 }}>
+              <InputGroup>
+                <Input
+                  value={name}
+                  onChangeText={(newName) => updateHabitName(id, newName)}
+                  placeholder="Enter the task name..."
+                />
+                <SettingsButton
+                  icon={ArrowPathIcon}
+                  onPress={() => {
+                    navigation.navigate("SelectOption", {
+                      headerTitle: "Select schedule type",
+                      data: SCHEDULE_TYPE_OPTIONS,
+                      eventName: "scheduleTypeChanged",
+                      min: 1,
+                      max: 1,
+                      checked: [habit.schedule.type],
+                    });
+                  }}
+                >
+                  {SCHEDULE_TYPE_NAMES[habit.schedule.type]}
+                </SettingsButton>
+              </InputGroup>
+
+              {habit.schedule.type === "single" && (
+                <SingleScheduleSettings habitId={id} />
+              )}
+
+              {habit.schedule.type === "daily" && (
+                <DailyScheduleSettings habitId={id} />
+              )}
+
+              {habit.schedule.type === "weekly" && (
+                <WeeklyScheduleSettings habitId={id} />
+              )}
+            </View>
+
+            <TouchableOpacity
+              onPress={removeHabitHandler}
+              className="flex-row rounded-lg justify-center items-center px-6 mt-3 gap-x-1"
+            >
+              <TrashIcon color="rgb(239 68 68)" width={20} strokeWidth={2} />
+              <Text className="text-red-500 text-base font-bold">Delete</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </CloseProvider>
   );
 };

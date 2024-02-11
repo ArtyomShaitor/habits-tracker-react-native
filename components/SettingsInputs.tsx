@@ -12,14 +12,18 @@ import {
   createContext,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { getDateString, getTimeString } from "@/utils/time";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { Day } from "@/types/Dates";
-import { CheckIcon, ChevronRightIcon } from "react-native-heroicons/outline";
+import {
+  CheckIcon,
+  CalendarDaysIcon,
+  ChevronRightIcon,
+  ClockIcon,
+} from "react-native-heroicons/outline";
+import { SvgProps } from "react-native-svg";
 
 // TODO: refactor the rounding checking, I bet there is a way to do it
 // using only NativeWind approach
@@ -82,22 +86,22 @@ export const DatePicker = ({
   onChangeDate?: (date: Date) => void;
 }) => {
   const groupClassname = useGroupClassname();
-  const ref = useRef();
   const [showPicker, setShowPicker] = useState(false);
 
   useOutsideClick(() => setShowPicker(false));
 
   return (
     <TouchableOpacity
-      onPress={() => setShowPicker(true)}
-      onBlur={() => setShowPicker(false)}
-      className={`flex-col bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
+      onPress={() => setShowPicker(!showPicker)}
+      className={`flex-col bg-white px-5 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <Text className="text-base text-stone-800">{getDateString(value)}</Text>
+      <View className="flex-row gap-x-2">
+        <CalendarDaysIcon width={22} />
+        <Text className="text-base text-stone-800">{getDateString(value)}</Text>
+      </View>
+
       {showPicker && (
         <DateTimePicker
-          // @ts-ignore
-          ref={ref}
           value={value}
           mode="date"
           display="spinner"
@@ -122,11 +126,15 @@ export const TimePicker = ({
 
   return (
     <TouchableOpacity
-      onPress={() => setShowPicker(true)}
-      onBlur={() => setShowPicker(false)}
-      className={`flex-col bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
+      onPress={() => setShowPicker(!showPicker)}
+      className={`flex-col bg-white px-5 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <Text className="text-base text-stone-800">{getTimeString(value)}</Text>
+      <View className="flex-row gap-x-2">
+        <ClockIcon width={22} />
+        <Text className="text-base font- text-stone-800">
+          {getTimeString(value)}
+        </Text>
+      </View>
       {showPicker && (
         <DateTimePicker
           value={value}
@@ -161,23 +169,27 @@ export const MultiSelectOption = ({
   );
 };
 
-export const Button = ({
+export const SettingsButton = ({
   onPress,
-  right,
+  icon: Icon,
   children,
 }: {
   onPress?: () => void;
   children: ReactNode;
-  right?: ReactNode;
+  icon?: (props: SvgProps) => React.JSX.Element;
 }) => {
   const groupClassname = useGroupClassname();
+  const paddingLeft = Icon ? "pl-5" : "pl-6";
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`flex-row justify-between items-center bg-white pl-6 pr-3 py-3 border-[1px] border-stone-200 ${groupClassname}`}
+      className={`flex-row justify-between items-center bg-white ${paddingLeft} pr-3 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <Text className="text-base text-stone-800">{children}</Text>
+      <View className="flex-1 flex-row gap-x-2">
+        {Icon && <Icon width={22} />}
+        <Text className="text-base text-stone-800">{children}</Text>
+      </View>
       <View>
         <ChevronRightIcon color="#44403c" />
       </View>

@@ -27,7 +27,9 @@ export default function App() {
                   name="HabitDetails"
                   // @ts-ignore
                   component={HabitDetailsScreen}
-                  options={{ headerTitle: "Details" }}
+                  options={{
+                    headerTitle: "Details",
+                  }}
                 />
                 <Stack.Screen
                   name="SelectOption"

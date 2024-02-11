@@ -27,20 +27,28 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-stone-100">
-      <View className="flex-1 pt-5" style={{ rowGap: 32 }}>
+      <View className="flex-1 pt-10" style={{ rowGap: 32 }}>
         {/* Header */}
-        <View className="flex-row px-5 justify-between items-center">
-          <Text className="text-3xl text-stone-700 font-bold">
-            Today's Tasks
+        <View className="flex-col px-5">
+          <Text className="text-lg text-stone-300 font-bold">
+            {new Date().toLocaleDateString()}
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("HabitsList")}>
-            <ListBulletIcon color="#44403c" />
-          </TouchableOpacity>
+          <View className="flex-row justify-between items-center">
+            <Text className="text-3xl text-stone-700 font-bold">
+              Today's Tasks
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("HabitsList")}>
+              <ListBulletIcon color="rgb(249 115 22)" />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View className="flex-1 px-5" style={{ rowGap: 12 }}>
+        <View className="flex-1" style={{ rowGap: 12 }}>
           {/* Progress Bar */}
-          <View className="flex-row items-center" style={{ columnGap: 12 }}>
+          <View
+            className="flex-row px-5 items-center"
+            style={{ columnGap: 12 }}
+          >
             <View className="flex-1">
               <ProgressBar percent={percent} />
             </View>
@@ -49,7 +57,7 @@ export const HomeScreen = () => {
 
           {/* List */}
           <FlatList
-            className="flex-col flex-1"
+            className="flex-col px-5 flex-1"
             contentContainerStyle={{ rowGap: 12 }}
             data={tasks}
             renderItem={({ item }) => (

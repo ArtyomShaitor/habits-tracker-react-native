@@ -7,7 +7,7 @@ interface Context {
   habits: Habit[];
   addHabit: (name: Habit["name"]) => Habit;
   removeHabit: (id: Habit["id"]) => void;
-  updateHabit: (id: Habit["id"], name: Habit["name"]) => void;
+  updateHabitName: (id: Habit["id"], name: Habit["name"]) => void;
   updateHabitSchedule: <S extends Schedules>(
     id: Habit["id"],
     schedule: S,
@@ -22,7 +22,7 @@ const context = createContext<Context>({
   habits: [],
   addHabit: () => ({}) as Habit,
   removeHabit: () => {},
-  updateHabit: () => {},
+  updateHabitName: () => {},
   updateHabitSchedule: () => {},
 });
 
@@ -110,7 +110,7 @@ export const DummyHabitsProvider = ({ children }: { children: ReactNode }) => {
       habits,
       addHabit,
       removeHabit,
-      updateHabit,
+      updateHabitName: updateHabit,
       updateHabitSchedule,
     }),
     [habits],

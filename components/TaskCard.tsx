@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Checkbox } from "./Checkbox";
 
 interface TaskCardProps {
@@ -10,7 +10,10 @@ interface TaskCardProps {
 
 export const TaskCard = ({ text, onPress, isDone }: TaskCardProps) => {
   return (
-    <View className="flex-row items-center bg-white px-4 py-3 shadow-sm rounded-xl">
+    <TouchableOpacity
+      onPress={() => onPress?.(!isDone)}
+      className="flex-row items-center bg-white px-4 py-3 shadow-sm rounded-xl"
+    >
       <View className="mr-4">
         <Checkbox isChecked={isDone} onPress={onPress} />
       </View>
@@ -22,6 +25,6 @@ export const TaskCard = ({ text, onPress, isDone }: TaskCardProps) => {
       >
         {text}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };

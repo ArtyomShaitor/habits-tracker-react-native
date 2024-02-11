@@ -12,7 +12,7 @@ export const Checkbox = ({ isChecked, onPress }: CheckboxProps) => {
       onPress={() => onPress?.(!isChecked)}
       className="bg-white justify-center items-center w-6 h-6 rounded-lg shadow-sm"
     >
-      {isChecked ? <CheckIcon color="" /> : null}
+      {isChecked ? <CheckIcon color="#10B981" /> : null}
     </TouchableOpacity>
   );
 };

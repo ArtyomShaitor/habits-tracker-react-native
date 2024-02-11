@@ -64,7 +64,7 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
             onPress={saveAndClose}
             className=" rounded-lg justify-center items-center py-4 bg-orange-500"
           >
-            <Text className="text-white text-base font-bold">Update</Text>
+            <Text className="text-white text-base font-bold">Save</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={removeHabitHandler}

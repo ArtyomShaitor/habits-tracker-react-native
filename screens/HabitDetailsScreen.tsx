@@ -1,24 +1,28 @@
-import { DatePicker, Input, InputGroup } from "@/components/SettingsInputs";
+import { Input } from "@/components/SettingsInputs";
 import { useAlert } from "@/hooks/useAlert";
-import { useDummyHabbits } from "@/hooks/useDummyHabits";
+import { useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
 import { useNavigation } from "@/hooks/useNavigation";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useCallback, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { TrashIcon } from "react-native-heroicons/outline";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { CloseProvider } from "@/hooks/useOutsideClose";
-import { DateTime, SingleTime } from "@/types/Dates";
+import { CloseProvider } from "@/hooks/useOutsideClick";
 import { SingleScheduleSettings } from "@/components/SingleScheduleSettings";
-import { Habit } from "@/types/Task";
+import { RedirectBack } from "@/components/RedirectBack";
 
 type HabitDetailsProps = NativeStackScreenProps<Routes, "HabitDetails">;
 
 export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
   const {
-    params: { habit },
+    params: { habitId },
   } = route;
+  const { habit } = useHabit(habitId);
+
+  if (habit === undefined) {
+    return <RedirectBack />;
+  }
+
   const { name, id } = habit;
 
   const navigation = useNavigation();

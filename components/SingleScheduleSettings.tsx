@@ -1,10 +1,6 @@
-import { DateTime, SingleTime } from "@/types/Dates";
+import { SingleTime } from "@/types/Dates";
 import { DatePicker, InputGroup, TimePicker } from "./SettingsInputs";
-import {
-  getDateFromDateTime,
-  getDateString,
-  getTimeString,
-} from "@/utils/time";
+import { getDateString, getTimeString } from "@/utils/time";
 import { useMemo } from "react";
 import { Habit } from "@/types/Task";
 import { UseHabit, useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
@@ -25,30 +21,14 @@ export const SingleScheduleSettings = ({
     if (!habit) {
       return new Date();
     }
-    return getDateFromDateTime(habit.schedule.date);
+    return habit.schedule.date;
   }, [habit?.schedule.date]);
 
   const updateDate = (newDate: Date) => {
     const { schedule: originalSchedule } = habit as NotUndefined<typeof habit>;
     const schedule: SingleTime = {
       ...originalSchedule,
-      date: {
-        ...originalSchedule.date,
-        date: getDateString(newDate),
-      },
-    };
-
-    updateHabitSchedule<SingleTime>(habitId, schedule);
-  };
-
-  const updateTime = (newDate: Date) => {
-    const { schedule: originalSchedule } = habit as NotUndefined<typeof habit>;
-    const schedule: SingleTime = {
-      ...originalSchedule,
-      date: {
-        ...originalSchedule.date,
-        time: getTimeString(newDate),
-      },
+      date: newDate,
     };
 
     updateHabitSchedule<SingleTime>(habitId, schedule);
@@ -57,7 +37,7 @@ export const SingleScheduleSettings = ({
   return (
     <InputGroup>
       <DatePicker value={date} onChangeDate={updateDate} />
-      <TimePicker value={date} onChangeDate={updateTime} />
+      <TimePicker value={date} onChangeDate={updateDate} />
     </InputGroup>
   );
 };

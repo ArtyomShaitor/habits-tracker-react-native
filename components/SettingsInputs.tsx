@@ -11,11 +11,13 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { getDateString, getTimeString } from "@/utils/time";
-import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface InputProps {
   value: string;
@@ -79,18 +81,22 @@ interface DatePickerProps {
 
 export const DatePicker = ({ value, onChangeDate }: DatePickerProps) => {
   const groupClassname = useGroupClassname();
+  const ref = useRef();
   const [showPicker, setShowPicker] = useState(false);
 
-  useOutsideClose(() => setShowPicker(false));
+  useOutsideClick(() => setShowPicker(false));
 
   return (
     <TouchableOpacity
       onPress={() => setShowPicker(true)}
+      onBlur={() => setShowPicker(false)}
       className={`flex-col bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
       <Text className="text-base text-stone-800">{getDateString(value)}</Text>
       {showPicker && (
         <DateTimePicker
+          // @ts-ignore
+          ref={ref}
           value={value}
           mode="date"
           display="spinner"
@@ -110,11 +116,12 @@ export const TimePicker = ({ value, onChangeDate }: TimePickerProps) => {
   const groupClassname = useGroupClassname();
   const [showPicker, setShowPicker] = useState(false);
 
-  useOutsideClose(() => setShowPicker(false));
+  useOutsideClick(() => setShowPicker(false));
 
   return (
     <TouchableOpacity
       onPress={() => setShowPicker(true)}
+      onBlur={() => setShowPicker(false)}
       className={`flex-col bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
       <Text className="text-base text-stone-800">{getTimeString(value)}</Text>

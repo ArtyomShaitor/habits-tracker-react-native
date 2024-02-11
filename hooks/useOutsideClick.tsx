@@ -18,7 +18,7 @@ const context = createContext<Context>({
 
 const { Provider } = context;
 
-export const useOutsideClose = (fn: () => void) => {
+export const useOutsideClick = (fn: () => void) => {
   const { registerClose } = useContext(context);
 
   registerClose(fn);

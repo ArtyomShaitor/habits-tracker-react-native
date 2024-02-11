@@ -1,10 +1,5 @@
 import { Habit, Task } from "@/types/Task";
-import {
-  getDateFromDateTime,
-  getDateString,
-  getTimeString,
-  isToday,
-} from "./time";
+import { isToday } from "./time";
 import { uuid } from "@/utils/uuid";
 
 export const createTask = (text: string, habbitId: Habit["id"]): Task => ({
@@ -15,10 +10,8 @@ export const createTask = (text: string, habbitId: Habit["id"]): Task => ({
 });
 
 export const createHabit = (name: string): Habit => {
-  const now = new Date();
-  now.setMinutes(now.getMinutes() + 60);
-
-  const time = getTimeString(now);
+  const time = new Date();
+  time.setMinutes(time.getMinutes() + 60);
 
   return {
     id: uuid(),
@@ -38,7 +31,7 @@ export const generateTasks = (habits: Habit[], oldTasks: Task[]): Task[] => {
     let isNeedToCreate = false;
 
     if (schedule.type === "single") {
-      const date = getDateFromDateTime(schedule.date);
+      const { date } = schedule;
       if (isToday(date)) {
         isNeedToCreate = true;
       }

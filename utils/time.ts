@@ -1,4 +1,4 @@
-import type { DateTime, Day } from "@/types/Dates";
+import type { Day } from "@/types/Dates";
 
 const DAYS_OF_WEEK: Day[] = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
@@ -42,10 +42,4 @@ export const isToday = (date: Date | Day) => {
     }
     return todayIndex === dayIndex;
   }
-};
-
-export const getDateFromDateTime = (date: DateTime) => {
-  const dateString = `${date.date} ${date.time ?? ""}`.trim();
-
-  return new Date(dateString);
 };

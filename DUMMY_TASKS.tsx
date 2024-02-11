@@ -8,10 +8,7 @@ export const DUMMY_HABITS: Habit[] = [
     name: "Make reservation",
     schedule: {
       type: "single",
-      date: {
-        date: "2024-02-10",
-        time: "23:00",
-      },
+      date: new Date("2024-02-10 23:00"),
     },
   },
   {
@@ -19,7 +16,7 @@ export const DUMMY_HABITS: Habit[] = [
     name: "Feed the dog in the morning",
     schedule: {
       type: "daily",
-      time: "09:00",
+      time: new Date("2024-02-10 09:00"),
     } as Daily,
   },
   {
@@ -27,7 +24,7 @@ export const DUMMY_HABITS: Habit[] = [
     name: "Feed the dog in the evening",
     schedule: {
       type: "daily",
-      time: "19:00",
+      time: new Date("2024-02-10 19:00"),
     } as Daily,
   },
   {

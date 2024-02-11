@@ -30,7 +30,7 @@ export const HabitsListScreen = () => {
     const habit = addHabit(name);
     setHabitName("");
 
-    navigation.navigate("HabitDetails", { habit });
+    navigation.navigate("HabitDetails", { habitId: habit.id });
   };
 
   return (
@@ -67,7 +67,9 @@ export const HabitsListScreen = () => {
                   key={habit.id}
                   id={habit.id}
                   text={habit.name}
-                  onPress={() => navigation.navigate("HabitDetails", { habit })}
+                  onPress={() =>
+                    navigation.navigate("HabitDetails", { habitId: habit.id })
+                  }
                 />
               )}
             />

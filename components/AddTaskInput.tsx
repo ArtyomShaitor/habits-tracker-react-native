@@ -3,12 +3,14 @@ import { TextInput } from "react-native";
 interface AddTaskInputProps {
   value?: string;
   onChangeText?: (text: string) => void;
+  onSubmit?: () => void;
   placeholder?: string;
 }
 
 export const AddTaskInput = ({
   value,
   onChangeText,
+  onSubmit,
   placeholder,
 }: AddTaskInputProps) => {
   return (
@@ -18,6 +20,7 @@ export const AddTaskInput = ({
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
+      onSubmitEditing={onSubmit}
     />
   );
 };

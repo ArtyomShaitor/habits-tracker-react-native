@@ -10,21 +10,53 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { TaskCard } from "@/components/TaskCard";
 import { useDummyTasks } from "@/hooks/useDummyTasks";
 import { ProgressBar } from "@/components/ProgressBar";
-import { useMemo } from "react";
 import { CalendarDaysIcon } from "react-native-heroicons/mini";
+import { useDummyHabbits } from "@/hooks/useDummyHabits";
+import { EmptyTasks } from "@/components/EmptyTasks";
+import { NoTasksForToday } from "@/components/NoTasksForToday";
+
+const Content = () => {
+  const { tasks, changeIsDone, percent } = useDummyTasks();
+  const statusEmoji = percent === 0 ? "😴" : percent >= 100 ? "🎉" : "🎯";
+
+  return (
+    <View className="flex-1" style={{ rowGap: 8 }}>
+      {/* Progress Bar */}
+      <View className="flex-row px-5 items-center" style={{ columnGap: 12 }}>
+        <View className="flex-1">
+          <ProgressBar percent={percent} />
+        </View>
+        <Text className="text-2xl">{statusEmoji}</Text>
+      </View>
+
+      {/* List */}
+      <FlatList
+        className="flex-col px-5 py-1 flex-1"
+        contentContainerStyle={{ rowGap: 12 }}
+        data={tasks}
+        renderItem={({ item }) => (
+          <TaskCard
+            key={item.id}
+            id={item.id}
+            text={item.text}
+            isDone={item.isDone}
+            onPress={(isDone) => changeIsDone(item.id, isDone)}
+          />
+        )}
+      />
+    </View>
+  );
+};
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const { tasks, changeIsDone } = useDummyTasks();
+  const { habits } = useDummyHabbits();
+  const { tasks } = useDummyTasks();
 
-  const percent = useMemo(() => {
-    if (!tasks.length) {
-      return 0;
-    }
-    return (100 * tasks.filter((task) => task.isDone).length) / tasks.length;
-  }, [tasks]);
+  const isNoHabits = habits.length < 1;
+  const isNoTasks = tasks.length < 1;
 
-  const statusEmoji = percent === 0 ? "😴" : percent >= 100 ? "🎉" : "🎯";
+  const isNoTasksForToday = !isNoHabits && isNoTasks;
 
   return (
     <SafeAreaView className="flex-1 bg-stone-100">
@@ -47,34 +79,13 @@ export const HomeScreen = () => {
           </View>
         </View>
 
-        <View className="flex-1" style={{ rowGap: 12 }}>
-          {/* Progress Bar */}
-          <View
-            className="flex-row px-5 items-center"
-            style={{ columnGap: 12 }}
-          >
-            <View className="flex-1">
-              <ProgressBar percent={percent} />
-            </View>
-            <Text className="text-2xl">{statusEmoji}</Text>
-          </View>
-
-          {/* List */}
-          <FlatList
-            className="flex-col px-5 flex-1"
-            contentContainerStyle={{ rowGap: 12 }}
-            data={tasks}
-            renderItem={({ item }) => (
-              <TaskCard
-                key={item.id}
-                id={item.id}
-                text={item.text}
-                isDone={item.isDone}
-                onPress={(isDone) => changeIsDone(item.id, isDone)}
-              />
-            )}
-          />
-        </View>
+        {isNoHabits ? (
+          <EmptyTasks />
+        ) : isNoTasksForToday ? (
+          <NoTasksForToday />
+        ) : (
+          <Content />
+        )}
       </View>
     </SafeAreaView>
   );

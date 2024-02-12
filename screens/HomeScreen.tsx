@@ -11,6 +11,7 @@ import { TaskCard } from "@/components/TaskCard";
 import { useDummyTasks } from "@/hooks/useDummyTasks";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useMemo } from "react";
+import { CalendarDaysIcon } from "react-native-heroicons/mini";
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,12 +28,9 @@ export const HomeScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-stone-100">
-      <View className="flex-1 pt-10" style={{ rowGap: 32 }}>
+      <View className="flex-1 pt-10" style={{ rowGap: 12 }}>
         {/* Header */}
         <View className="flex-col px-5">
-          <Text className="text-lg text-stone-300 font-bold">
-            {new Date().toLocaleDateString()}
-          </Text>
           <View className="flex-row justify-between items-center">
             <Text className="text-3xl text-stone-700 font-bold">
               Today's Tasks
@@ -40,6 +38,12 @@ export const HomeScreen = () => {
             <TouchableOpacity onPress={() => navigation.navigate("HabitsList")}>
               <ListBulletIcon color="rgb(249 115 22)" />
             </TouchableOpacity>
+          </View>
+          <View className="flex-row items-center gap-x-1">
+            <CalendarDaysIcon color="rgb(214 211 209)" />
+            <Text className="text-lg text-stone-300 font-bold">
+              {new Date().toLocaleDateString()}
+            </Text>
           </View>
         </View>
 

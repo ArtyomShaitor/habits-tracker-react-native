@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { CheckIcon } from "react-native-heroicons/mini";
+import { CheckIcon } from "react-native-heroicons/outline";
 
 interface CheckboxProps {
   isChecked?: boolean;
@@ -12,7 +12,9 @@ export const Checkbox = ({ isChecked, onPress }: CheckboxProps) => {
       onPress={() => onPress?.(!isChecked)}
       className="bg-white justify-center items-center w-6 h-6 rounded-lg shadow-sm"
     >
-      {isChecked ? <CheckIcon color="#10B981" /> : null}
+      {isChecked ? (
+        <CheckIcon color="#10B981" strokeWidth={3} width={18} />
+      ) : null}
     </TouchableOpacity>
   );
 };

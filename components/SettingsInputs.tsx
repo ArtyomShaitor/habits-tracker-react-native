@@ -23,7 +23,7 @@ import {
   ChevronRightIcon,
   ClockIcon,
 } from "react-native-heroicons/outline";
-import { SvgProps } from "react-native-svg";
+import type { SvgProps } from "react-native-svg";
 
 // TODO: refactor the rounding checking, I bet there is a way to do it
 // using only NativeWind approach

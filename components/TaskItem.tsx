@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { ChevronRightIcon } from "react-native-heroicons/outline";
 
 interface TaskItemProps {

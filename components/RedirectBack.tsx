@@ -1,5 +1,5 @@
 import { useNavigation } from "@/hooks/useNavigation";
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { View } from "react-native";
 
 export const RedirectBack = () => {

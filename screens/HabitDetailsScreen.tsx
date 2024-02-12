@@ -24,29 +24,22 @@ import { SCHEDULE_TYPE_NAMES, SCHEDULE_TYPE_OPTIONS } from "@/config";
 import { Habit } from "@/types/Task";
 import { createDefaultSchedule } from "@/utils/habits";
 
-type HabitDetailsProps = NativeStackScreenProps<Routes, "HabitDetails">;
+type HabitDetailsScreenProps = NativeStackScreenProps<Routes, "HabitDetails">;
 
-export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
-  const {
-    params: { habitId },
-  } = route;
-  const { habit } = useHabit(habitId);
-
-  if (habit === undefined) {
-    return <RedirectBack />;
-  }
-
-  const [habitDraft] = useState(habit);
-
+export const HabitDetails = ({ habit }: { habit: Habit }) => {
+  const [originalHabitSnapshot] = useState(habit);
   const { name, id } = habit;
 
   const navigation = useNavigation();
   const { alert } = useAlert();
-  const { updateHabitName, removeHabit, updateHabitSchedule } = useHabits();
+  const { updateHabit, removeHabit } = useHabits();
 
   const onCancel = () => {
-    updateHabitName(id, habitDraft.name);
-    updateHabitSchedule(id, habitDraft.schedule);
+    const { name, schedule } = originalHabitSnapshot;
+    updateHabit(id, {
+      name,
+      schedule,
+    });
     navigation.goBack();
   };
 
@@ -66,7 +59,7 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
         const [newType] = checkTypes;
         const schedule = createDefaultSchedule(newType);
 
-        updateHabitSchedule(habitId, schedule);
+        updateHabit(id, { schedule });
       },
     );
 
@@ -107,7 +100,7 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
               <InputGroup>
                 <Input
                   value={name}
-                  onChangeText={(newName) => updateHabitName(id, newName)}
+                  onChangeText={(newName) => updateHabit(id, { name: newName })}
                   placeholder="Enter the task name..."
                 />
                 <SettingsButton
@@ -152,4 +145,17 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
       </TouchableWithoutFeedback>
     </CloseProvider>
   );
+};
+
+export const HabitDetailsScreen = ({ route }: HabitDetailsScreenProps) => {
+  const {
+    params: { habitId },
+  } = route;
+  const { habit } = useHabit(habitId);
+
+  if (habit === undefined) {
+    return <RedirectBack />;
+  }
+
+  return <HabitDetails habit={habit} />;
 };

@@ -9,6 +9,7 @@ interface Context {
   habits: Habit[];
   addHabit: (name: Habit["name"]) => Habit;
   removeHabit: (id: Habit["id"]) => void;
+  updateHabit: (id: Habit["id"], payload: Partial<Habit>) => void;
   updateHabitName: (id: Habit["id"], name: Habit["name"]) => void;
   updateHabitSchedule: <S extends Schedules>(
     id: Habit["id"],
@@ -24,6 +25,7 @@ const context = createContext<Context>({
   habits: [],
   addHabit: () => ({}) as Habit,
   removeHabit: () => {},
+  updateHabit: () => {},
   updateHabitName: () => {},
   updateHabitSchedule: () => {},
 });
@@ -79,7 +81,27 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const updateHabit = (id: Habit["id"], name: Habit["name"]) => {
+  const updateHabit = (id: Habit["id"], payload: Partial<Habit>) => {
+    setHabits((habits) => {
+      const newhabits = [...habits];
+      const indexToUpdate = newhabits.findIndex((task) => task.id === id);
+
+      if (indexToUpdate < 0) {
+        return habits;
+      }
+
+      const habit = habits[indexToUpdate];
+      const newHabit = {
+        ...habit,
+        ...payload,
+      } as Habit;
+      newhabits.splice(indexToUpdate, 1, newHabit);
+
+      return newhabits;
+    });
+  };
+
+  const updateHabitName = (id: Habit["id"], name: Habit["name"]) => {
     setHabits((habits) => {
       const newhabits = [...habits];
       const indexToUpdate = newhabits.findIndex((task) => task.id === id);
@@ -127,8 +149,9 @@ export const HabitsProvider = ({ children }: { children: ReactNode }) => {
       habits,
       addHabit,
       removeHabit,
-      updateHabitName: updateHabit,
+      updateHabitName,
       updateHabitSchedule,
+      updateHabit,
     }),
     [habits],
   );

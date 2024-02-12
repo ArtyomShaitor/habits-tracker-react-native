@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { CheckIcon } from "react-native-heroicons/outline";
 
 interface CheckboxProps {

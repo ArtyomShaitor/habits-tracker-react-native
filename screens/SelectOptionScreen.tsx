@@ -1,9 +1,8 @@
 import { Select } from "@/components/SettingsInputs";
-import { DAYS_OPTIONS } from "@/config";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useLayoutEffect } from "react";
-import { DeviceEventEmitter, Text, View } from "react-native";
+import { DeviceEventEmitter, View } from "react-native";
 
 type SelectOptionScreenProps = NativeStackScreenProps<Routes, "SelectOption">;
 

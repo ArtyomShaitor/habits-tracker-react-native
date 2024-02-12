@@ -1,8 +1,7 @@
 import { Daily } from "@/types/Dates";
 import { InputGroup, TimePicker } from "./SettingsInputs";
 import { Habit } from "@/types/Task";
-import { UseHabit, useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
-import { Text } from "react-native";
+import { UseHabit, useHabit } from "@/hooks/useHabits";
 import { useMemo } from "react";
 import { NotUndefined } from "@/types/Helpers";
 

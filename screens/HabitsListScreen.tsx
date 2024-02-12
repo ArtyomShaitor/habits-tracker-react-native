@@ -1,7 +1,7 @@
 import { AddTaskInput } from "@/components/AddTaskInput";
 import { EmptyHabits } from "@/components/EmptyHabits";
 import { TaskItem } from "@/components/TaskItem";
-import { useDummyHabbits } from "@/hooks/useDummyHabits";
+import { useHabits } from "@/hooks/useHabits";
 import { useNavigation } from "@/hooks/useNavigation";
 import { useState } from "react";
 import {
@@ -20,7 +20,7 @@ import { ChevronLeftIcon, PlusIcon } from "react-native-heroicons/outline";
 
 const Content = () => {
   const navigation = useNavigation();
-  const { habits } = useDummyHabbits();
+  const { habits } = useHabits();
 
   return (
     <FlatList
@@ -47,7 +47,7 @@ const Content = () => {
 export const HabitsListScreen = () => {
   const navigation = useNavigation();
   const [habitName, setHabitName] = useState("");
-  const { habits, addHabit } = useDummyHabbits();
+  const { habits, addHabit } = useHabits();
 
   const addNewHabit = (name: string) => {
     if (!name.trim()) {

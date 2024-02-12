@@ -60,7 +60,11 @@ export const createHabit = (name: string): Habit => {
   };
 };
 
-export const generateTasks = (habits: Habit[], oldTasks: Task[]): Task[] => {
+export const generateTasks = (
+  habits: Habit[],
+  oldTasks: Task[],
+  doneTasksIds: Task["id"][],
+): Task[] => {
   const tasks: Task[] = [];
 
   habits.forEach((habit) => {
@@ -92,6 +96,9 @@ export const generateTasks = (habits: Habit[], oldTasks: Task[]): Task[] => {
         const { text } = task;
         task = { ...existingTask, text } as Task;
       }
+
+      task.isDone = doneTasksIds.includes(task.habbitId);
+
       tasks.push(task);
     }
   });

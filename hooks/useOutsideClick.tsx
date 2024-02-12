@@ -41,7 +41,6 @@ export const CloseProvider = ({ children }: { children: ReactNode }) => {
     <Provider value={value}>
       <TouchableWithoutFeedback
         onPress={() => {
-          console.log(1111111);
           closeRef.current();
           closeRef.current = () => {};
         }}

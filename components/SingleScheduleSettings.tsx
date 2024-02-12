@@ -1,9 +1,8 @@
 import { SingleTime } from "@/types/Dates";
 import { DatePicker, InputGroup, TimePicker } from "./SettingsInputs";
-import { getDateString, getTimeString } from "@/utils/time";
 import { useMemo } from "react";
 import { Habit } from "@/types/Task";
-import { UseHabit, useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
+import { UseHabit, useHabits, useHabit } from "@/hooks/useHabits";
 import { NotUndefined } from "@/types/Helpers";
 
 interface SingleScheduleSettingsProps {

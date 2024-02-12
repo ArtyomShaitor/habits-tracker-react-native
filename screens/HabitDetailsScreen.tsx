@@ -1,6 +1,6 @@
 import { SettingsButton, Input, InputGroup } from "@/components/SettingsInputs";
 import { useAlert } from "@/hooks/useAlert";
-import { useDummyHabbits, useHabit } from "@/hooks/useDummyHabits";
+import { useHabits, useHabit } from "@/hooks/useHabits";
 import { useNavigation, useNavigationOption } from "@/hooks/useNavigation";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -42,8 +42,7 @@ export const HabitDetailsScreen = ({ route }: HabitDetailsProps) => {
 
   const navigation = useNavigation();
   const { alert } = useAlert();
-  const { updateHabitName, removeHabit, updateHabitSchedule } =
-    useDummyHabbits();
+  const { updateHabitName, removeHabit, updateHabitSchedule } = useHabits();
 
   const onCancel = () => {
     updateHabitName(id, habitDraft.name);

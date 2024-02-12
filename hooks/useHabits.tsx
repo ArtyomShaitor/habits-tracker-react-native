@@ -1,7 +1,9 @@
-import { DUMMY_HABITS } from "@/DUMMY_TASKS";
+import { HabitStorage } from "@/storage/habits-storage";
 import type { Habit, Schedules } from "@/types/Task";
 import { createHabit } from "@/utils/habits";
-import { ReactNode, createContext, useContext, useMemo, useState } from "react";
+import { ReactNode, createContext, useContext, useMemo } from "react";
+import { useData } from "./useData";
+import { useAppState } from "./useAppState";
 
 interface Context {
   habits: Habit[];
@@ -28,10 +30,10 @@ const context = createContext<Context>({
 
 const { Provider } = context;
 
-export const useDummyHabbits = () => useContext(context);
+export const useHabits = () => useContext(context);
 
 export function useHabit(id: Habit["id"]) {
-  const habitsContext = useDummyHabbits();
+  const habitsContext = useHabits();
   const { habits } = habitsContext;
 
   const habit = habits.find((habit) => habit.id === id);
@@ -39,8 +41,23 @@ export function useHabit(id: Habit["id"]) {
   return { ...habitsContext, habit };
 }
 
-export const DummyHabitsProvider = ({ children }: { children: ReactNode }) => {
-  const [habits, setHabits] = useState(() => DUMMY_HABITS);
+export const HabitsProvider = ({ children }: { children: ReactNode }) => {
+  const [habits, setHabits, refreshHabits] = useData<Habit[]>(
+    [],
+    async () => {
+      return await HabitStorage.getAll();
+    },
+    (newHabits) => {
+      HabitStorage.sync(newHabits);
+    },
+  );
+
+  // refresh habits and tasks if I re-open the app
+  useAppState((appState) => {
+    if (appState === "active") {
+      refreshHabits();
+    }
+  });
 
   const addHabit = (name: Habit["name"]) => {
     const newHabit = createHabit(name);

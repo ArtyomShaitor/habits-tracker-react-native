@@ -2,6 +2,8 @@ import type { Day } from "@/types/Dates";
 
 const DAYS_OF_WEEK: Day[] = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
+export const getNow = () => new Date();
+
 export const getTimeString = (date: Date): string => {
   // Get the hours and minutes from the date object
   const hours = date.getHours().toString().padStart(2, "0"); // Ensure two digits
@@ -27,12 +29,12 @@ export const getDateString = (date: Date): string => {
 
 export const isToday = (date: Date | Day) => {
   if (date instanceof Date) {
-    const todayFormatted = getDateString(new Date());
+    const todayFormatted = getDateString(getNow());
     const dateFormatted = getDateString(date);
 
     return todayFormatted === dateFormatted;
   } else {
-    const todayIndex = new Date().getDay();
+    const todayIndex = getNow().getDay();
 
     const dayIndex = DAYS_OF_WEEK.indexOf(date);
     if (dayIndex < 0) {

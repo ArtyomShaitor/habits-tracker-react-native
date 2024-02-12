@@ -8,15 +8,16 @@ import {
 import { ListBulletIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@/hooks/useNavigation";
 import { TaskCard } from "@/components/TaskCard";
-import { useDummyTasks } from "@/hooks/useDummyTasks";
+import { useTasks } from "@/hooks/useTasks";
 import { ProgressBar } from "@/components/ProgressBar";
 import { CalendarDaysIcon } from "react-native-heroicons/mini";
-import { useDummyHabbits } from "@/hooks/useDummyHabits";
+import { useHabits } from "@/hooks/useHabits";
 import { EmptyTasks } from "@/components/EmptyTasks";
 import { NoTasksForToday } from "@/components/NoTasksForToday";
+import { getNow } from "@/utils/time";
 
 const Content = () => {
-  const { tasks, changeIsDone, percent } = useDummyTasks();
+  const { tasks, changeIsDone, percent } = useTasks();
   const statusEmoji = percent === 0 ? "😴" : percent >= 100 ? "🎉" : "🎯";
 
   return (
@@ -50,8 +51,8 @@ const Content = () => {
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
-  const { habits } = useDummyHabbits();
-  const { tasks } = useDummyTasks();
+  const { habits } = useHabits();
+  const { tasks } = useTasks();
 
   const isNoHabits = habits.length < 1;
   const isNoTasks = tasks.length < 1;
@@ -74,7 +75,7 @@ export const HomeScreen = () => {
           <View className="flex-row items-center gap-x-1">
             <CalendarDaysIcon color="rgb(214 211 209)" />
             <Text className="text-lg text-stone-300 font-bold">
-              {new Date().toLocaleDateString()}
+              {getNow().toLocaleDateString()}
             </Text>
           </View>
         </View>

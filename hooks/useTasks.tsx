@@ -8,7 +8,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useDummyHabbits } from "./useDummyHabits";
+import { useHabits } from "./useHabits";
+import { DoneTasksStorage } from "@/storage/done-tasks-storage";
 
 interface Context {
   tasks: Task[];
@@ -24,14 +25,19 @@ const context = createContext<Context>({
 
 const { Provider } = context;
 
-export const useDummyTasks = () => useContext(context);
+export const useTasks = () => useContext(context);
 
-export const DummyTasksProvider = ({ children }: { children: ReactNode }) => {
-  const { habits } = useDummyHabbits();
+export const TasksProvider = ({ children }: { children: ReactNode }) => {
+  const { habits } = useHabits();
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    setTasks((tasks) => generateTasks(habits, tasks));
+    updateTasks();
+
+    async function updateTasks() {
+      const doneTasksIds = await DoneTasksStorage.getAll();
+      setTasks((tasks) => generateTasks(habits, tasks, doneTasksIds));
+    }
   }, [habits]);
 
   const changeIsDone = (id: any, isDone: boolean) => {
@@ -45,6 +51,11 @@ export const DummyTasksProvider = ({ children }: { children: ReactNode }) => {
       if (task) {
         task.isDone = isDone;
       }
+
+      // Sync with tasks storage
+      DoneTasksStorage.sync(
+        newTasks.filter((task) => task.isDone).map((_) => _.habbitId),
+      );
 
       return newTasks;
     });

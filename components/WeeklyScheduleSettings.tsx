@@ -1,7 +1,7 @@
 import { Weekly } from "@/types/Dates";
 import { SettingsButton, InputGroup, TimePicker } from "./SettingsInputs";
 import { Habit } from "@/types/Task";
-import { UseHabit, useHabit } from "@/hooks/useDummyHabits";
+import { UseHabit, useHabit } from "@/hooks/useHabits";
 import { DeviceEventEmitter } from "react-native";
 import { useEffect, useMemo } from "react";
 import { NotUndefined } from "@/types/Helpers";

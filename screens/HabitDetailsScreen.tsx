@@ -1,4 +1,5 @@
 import { SettingsButton, Input, InputGroup } from "@/components/SettingsInputs";
+import * as Haptics from "expo-haptics";
 import { useAlert } from "@/hooks/useAlert";
 import { useHabits, useHabit } from "@/hooks/useHabits";
 import { useNavigation, useNavigationOptions } from "@/hooks/useNavigation";
@@ -69,6 +70,7 @@ export const HabitDetails = ({ habit }: { habit: Habit }) => {
   }, []);
 
   const removeHabitHandler = async () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     const isDelete = await alert(
       "Are you sure?",
       `You're going to delete "${name}"`,

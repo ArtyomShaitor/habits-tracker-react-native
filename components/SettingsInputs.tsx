@@ -24,6 +24,7 @@ import {
   ClockIcon,
 } from "react-native-heroicons/outline";
 import type { SvgProps } from "react-native-svg";
+import { Colors } from "@/config";
 
 // TODO: refactor the rounding checking, I bet there is a way to do it
 // using only NativeWind approach
@@ -70,7 +71,7 @@ export const Input = ({
   return (
     <TextInput
       style={[{ fontSize: 16 }, style]}
-      className={`text-stone-800 flex-row items-center bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
+      className={`text-stone-800 flex-row items-center bg-white px-5 py-4 border-[1px] border-stone-200 ${groupClassname}`}
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
@@ -95,8 +96,10 @@ export const DatePicker = ({
       onPress={() => setShowPicker(!showPicker)}
       className={`flex-col bg-white px-5 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <View className="flex-row gap-x-2">
-        <CalendarDaysIcon width={22} />
+      <View className="flex-row gap-x-2 items-center">
+        <View className="p-1 bg-orange-500 rounded-lg">
+          <CalendarDaysIcon width={20} height={20} color="white" />
+        </View>
         <Text className="text-base text-stone-800">{getDateString(value)}</Text>
       </View>
 
@@ -129,8 +132,10 @@ export const TimePicker = ({
       onPress={() => setShowPicker(!showPicker)}
       className={`flex-col bg-white px-5 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <View className="flex-row gap-x-2">
-        <ClockIcon width={22} />
+      <View className="flex-row gap-x-2 items-center">
+        <View className="p-1 bg-orange-500 rounded-lg">
+          <ClockIcon width={20} height={20} color="white" />
+        </View>
         <Text className="text-base font- text-stone-800">
           {getTimeString(value)}
         </Text>
@@ -164,7 +169,9 @@ export const MultiSelectOption = ({
       className={`flex-row justify-between items-center bg-white px-6 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
       <Text className="text-base text-stone-800">{children}</Text>
-      {isChecked && <CheckIcon color="black" width={18} />}
+      {isChecked && (
+        <CheckIcon color={Colors.primary} strokeWidth={2} width={20} />
+      )}
     </TouchableOpacity>
   );
 };
@@ -179,15 +186,18 @@ export const SettingsButton = ({
   icon?: (props: SvgProps) => React.JSX.Element;
 }) => {
   const groupClassname = useGroupClassname();
-  const paddingLeft = Icon ? "pl-5" : "pl-6";
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`flex-row justify-between items-center bg-white ${paddingLeft} pr-3 py-3 border-[1px] border-stone-200 ${groupClassname}`}
+      className={`flex-row justify-between items-center bg-white pl-5 pr-3 py-3 border-[1px] border-stone-200 ${groupClassname}`}
     >
-      <View className="flex-1 flex-row gap-x-2">
-        {Icon && <Icon width={22} />}
+      <View className="flex-1 flex-row gap-x-2 items-center">
+        {Icon && (
+          <View className="p-1 bg-orange-500 rounded-lg">
+            <Icon width={20} height={20} color="white" />
+          </View>
+        )}
         <Text className="text-base text-stone-800">{children}</Text>
       </View>
       <View>

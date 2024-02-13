@@ -1,3 +1,4 @@
+import { Colors } from "@/config";
 import { Text, View } from "react-native";
 import { ListBulletIcon } from "react-native-heroicons/mini";
 
@@ -10,10 +11,7 @@ export const EmptyTasks = () => {
       <View className="px-10">
         <Text className="text-stone-600 text-center">
           Please start by clicking on the{" "}
-          <ListBulletIcon
-            style={{ marginBottom: -5 }}
-            color="rgb(249 115 22)"
-          />
+          <ListBulletIcon style={{ marginBottom: -5 }} color={Colors.primary} />
           {"\n"}
           in the top-right corner
         </Text>

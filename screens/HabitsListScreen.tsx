@@ -4,6 +4,7 @@ import { TaskItem } from "@/components/TaskItem";
 import { useHabits } from "@/hooks/useHabits";
 import { useNavigation } from "@/hooks/useNavigation";
 import { useState } from "react";
+import * as Haptics from "expo-haptics";
 import {
   FlatList,
   Keyboard,
@@ -16,6 +17,7 @@ import {
   View,
 } from "react-native";
 import { ChevronLeftIcon, PlusIcon } from "react-native-heroicons/outline";
+import { Colors } from "@/config";
 
 const Content = () => {
   const navigation = useNavigation();
@@ -50,8 +52,10 @@ export const HabitsListScreen = () => {
 
   const addNewHabit = (name: string) => {
     if (!name.trim()) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       return;
     }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Keyboard.dismiss();
     const habit = addHabit(name);
     setHabitName("");
@@ -76,7 +80,7 @@ export const HabitsListScreen = () => {
                 onPress={() => navigation.goBack()}
               >
                 <View className="flex-row items-center gap-x-1">
-                  <ChevronLeftIcon color="rgb(249 115 22)" />
+                  <ChevronLeftIcon color={Colors.primary} />
                   <Text className="text-lg text-orange-500">Back</Text>
                 </View>
               </TouchableOpacity>

@@ -1,3 +1,4 @@
+import { Colors } from "@/config";
 import { Text, View } from "react-native";
 import { PlusIcon } from "react-native-heroicons/mini";
 
@@ -11,7 +12,7 @@ export const EmptyHabits = () => {
       </View>
       <View className="flex-row items-center">
         <Text className="text-stone-600">Enter the name and click on </Text>
-        <PlusIcon color="rgb(249 115 22)" />
+        <PlusIcon color={Colors.primary} />
       </View>
     </View>
   );

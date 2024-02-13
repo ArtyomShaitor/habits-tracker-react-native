@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity, View } from "react-native";
+import * as Haptics from "expo-haptics";
 import { Checkbox } from "./Checkbox";
 
 interface TaskCardProps {
@@ -11,7 +12,12 @@ interface TaskCardProps {
 export const TaskCard = ({ text, onPress, isDone }: TaskCardProps) => {
   return (
     <TouchableOpacity
-      onPress={() => onPress?.(!isDone)}
+      onPressIn={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      }}
+      onPress={() => {
+        onPress?.(!isDone);
+      }}
       className="flex-row items-center bg-white px-4 py-3 shadow-sm rounded-xl"
     >
       <View className="mr-4">

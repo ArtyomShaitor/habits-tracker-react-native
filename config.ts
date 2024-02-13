@@ -1,5 +1,9 @@
 import { Day } from "./types/Dates";
 
+export const Colors = {
+  primary: "rgb(249 115 22)",
+};
+
 export const DAYS_OPTIONS: { name: string; value: Day }[] = [
   { name: "Monday", value: "mon" },
   { name: "Tuesday", value: "tue" },

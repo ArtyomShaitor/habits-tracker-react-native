@@ -15,6 +15,7 @@ import { useHabits } from "@/hooks/useHabits";
 import { EmptyTasks } from "@/components/EmptyTasks";
 import { NoTasksForToday } from "@/components/NoTasksForToday";
 import { getNow } from "@/utils/time";
+import { Colors } from "@/config";
 
 const Content = () => {
   const { tasks, changeIsDone, percent } = useTasks();
@@ -68,8 +69,16 @@ export const HomeScreen = () => {
             <Text className="text-3xl text-stone-700 font-bold">
               Today's Tasks
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("HabitsList")}>
-              <ListBulletIcon color="rgb(249 115 22)" />
+            <TouchableOpacity
+              className="pl-3 py-2"
+              onPress={() => navigation.navigate("HabitsList")}
+            >
+              <ListBulletIcon
+                color={Colors.primary}
+                width={30}
+                height={30}
+                strokeWidth={2}
+              />
             </TouchableOpacity>
           </View>
           <View className="flex-row items-center gap-x-1">

@@ -34,7 +34,7 @@ export const CloseProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       registerClose,
     }),
-    [],
+    [registerClose],
   );
 
   return (

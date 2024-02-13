@@ -3,10 +3,10 @@ import { useLayoutEffect } from "react";
 import { View } from "react-native";
 
 export const RedirectBack = () => {
-  const naigation = useNavigation();
+  const navigation = useNavigation();
   useLayoutEffect(() => {
-    naigation.goBack();
-  }, []);
+    navigation.goBack();
+  }, [navigation]);
 
-  return <View></View>;
+  return <View />;
 };

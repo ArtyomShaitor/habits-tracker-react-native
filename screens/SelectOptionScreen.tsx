@@ -14,7 +14,7 @@ export const SelectOptionScreen = (props: SelectOptionScreenProps) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({ headerTitle });
-  }, []);
+  }, [headerTitle, navigation]);
 
   const onChange = (newChecked: (string | number)[]) => {
     DeviceEventEmitter.emit(eventName, newChecked);

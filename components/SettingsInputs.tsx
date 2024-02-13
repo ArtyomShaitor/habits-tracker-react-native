@@ -199,7 +199,7 @@ export const SettingsButton = ({
 
 export const Select = ({
   data,
-  checked,
+  checked = [],
   onChange,
   min = 0,
   max = data.length,
@@ -210,12 +210,11 @@ export const Select = ({
   min?: number;
   max?: number;
 }) => {
-  const [_checked, setChecked] = useState<(typeof data)[number]["value"][]>(
-    checked ?? [],
-  );
+  const [_checked, setChecked] =
+    useState<(typeof data)[number]["value"][]>(checked);
 
   useEffect(() => {
-    setChecked(_checked);
+    setChecked(checked);
   }, [checked]);
 
   const [dataWithIndexes] = useState(() => data.map((item) => item.value));

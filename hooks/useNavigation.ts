@@ -12,13 +12,13 @@ import { useLayoutEffect } from "react";
 export const useNavigation = () =>
   useNativeNavigation<NativeStackNavigationProp<Routes>>();
 
-export const useNavigationOption = (
+export const useNavigationOptions = (
   options: Partial<NativeStackNavigationOptions>,
 ) => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions(options);
-  }, []);
+  }, [navigation, options]);
 };
 
 export const useRoute = () => useNativeRoute();

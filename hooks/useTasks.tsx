@@ -3,6 +3,7 @@ import { generateTasks } from "@/utils/habits";
 import {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -36,30 +37,33 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
 
     async function updateTasks() {
       const doneTasksIds = await DoneTasksStorage.getAll();
-      setTasks((tasks) => generateTasks(habits, tasks, doneTasksIds));
+      setTasks((oldTasks) => generateTasks(habits, oldTasks, doneTasksIds));
     }
   }, [habits]);
 
-  const changeIsDone = (id: any, isDone: boolean) => {
-    setTasks((tasks) => {
-      const newTasks = [...tasks];
-      const task = newTasks.find((task) => task.id === id);
-      if (!task) {
-        return tasks;
-      }
+  const changeIsDone = useCallback(
+    (id: any, isDone: boolean) => {
+      setTasks((oldTasks) => {
+        const newTasks = [...oldTasks];
+        const task = newTasks.find((newTask) => newTask.id === id);
+        if (!task) {
+          return oldTasks;
+        }
 
-      if (task) {
-        task.isDone = isDone;
-      }
+        if (task) {
+          task.isDone = isDone;
+        }
 
-      // Sync with tasks storage
-      DoneTasksStorage.sync(
-        newTasks.filter((task) => task.isDone).map((_) => _.habbitId),
-      );
+        // Sync with tasks storage
+        DoneTasksStorage.sync(
+          newTasks.filter((newTask) => newTask.isDone).map((_) => _.habbitId),
+        );
 
-      return newTasks;
-    });
-  };
+        return newTasks;
+      });
+    },
+    [setTasks],
+  );
 
   const percent = useMemo(() => {
     if (!tasks.length) {
@@ -74,7 +78,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
       changeIsDone,
       percent,
     }),
-    [tasks],
+    [tasks, percent, changeIsDone],
   );
 
   return <Provider value={value}>{children}</Provider>;

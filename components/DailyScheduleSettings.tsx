@@ -14,12 +14,14 @@ export const DailyScheduleSettings = ({
 }: DailyScheduleSettingsProps) => {
   const { habit, updateHabitSchedule } = useHabit(habitId) as UseHabit<Daily>;
 
+  const habitTime = habit?.schedule.time;
+
   const time = useMemo(() => {
-    if (!habit) {
+    if (!habitTime) {
       return new Date();
     }
-    return habit.schedule.time;
-  }, [habit?.schedule.time]);
+    return habitTime;
+  }, [habitTime]);
 
   const updateTime = (newTime: Date) => {
     const { schedule: originalSchedule } = habit as NotUndefined<typeof habit>;

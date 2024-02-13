@@ -19,19 +19,22 @@ export const WeeklyScheduleSettings = ({
   const { habit, updateHabitSchedule } = useHabit(habitId) as UseHabit<Weekly>;
   const navigation = useNavigation();
 
+  const habitTime = habit?.schedule.time;
+  const habitDates = habit?.schedule.dates;
+
   const time = useMemo(() => {
-    if (!habit) {
+    if (!habitTime) {
       return new Date();
     }
-    return habit.schedule.time;
-  }, [habit?.schedule.time]);
+    return habitTime;
+  }, [habitTime]);
 
   const checked = useMemo(() => {
-    if (!habit) {
+    if (!habitDates) {
       return [];
     }
-    return habit.schedule.dates;
-  }, [habit?.schedule.dates]);
+    return habitDates;
+  }, [habitDates]);
 
   useEffect(() => {
     const unsub = DeviceEventEmitter.addListener("dayschanged", (newDays) => {
@@ -47,6 +50,7 @@ export const WeeklyScheduleSettings = ({
     });
 
     return () => unsub.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkedLabel = useMemo(() => {

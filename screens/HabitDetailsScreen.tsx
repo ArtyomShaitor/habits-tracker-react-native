@@ -1,7 +1,7 @@
 import { SettingsButton, Input, InputGroup } from "@/components/SettingsInputs";
 import { useAlert } from "@/hooks/useAlert";
 import { useHabits, useHabit } from "@/hooks/useHabits";
-import { useNavigation, useNavigationOption } from "@/hooks/useNavigation";
+import { useNavigation, useNavigationOptions } from "@/hooks/useNavigation";
 import { Routes } from "@/types/Routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
@@ -35,18 +35,19 @@ export const HabitDetails = ({ habit }: { habit: Habit }) => {
   const { updateHabit, removeHabit } = useHabits();
 
   const onCancel = () => {
-    const { name, schedule } = originalHabitSnapshot;
     updateHabit(id, {
-      name,
-      schedule,
+      name: originalHabitSnapshot.name,
+      schedule: originalHabitSnapshot.schedule,
     });
     navigation.goBack();
   };
 
-  useNavigationOption({
+  useNavigationOptions({
+    // eslint-disable-next-line react/no-unstable-nested-components
     headerLeft: () => {
       return <Button title="Cancel" onPress={onCancel} />;
     },
+    // eslint-disable-next-line react/no-unstable-nested-components
     headerRight: () => {
       return <Button title="Done" onPress={() => navigation.goBack()} />;
     },
@@ -64,6 +65,7 @@ export const HabitDetails = ({ habit }: { habit: Habit }) => {
     );
 
     return () => unsub.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const removeHabitHandler = async () => {

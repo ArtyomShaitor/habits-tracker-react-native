@@ -4,6 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "lint": "eslint",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -27,7 +28,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native/eslint-config": "^0.73.2",
     "@types/react": "~18.2.45",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "prettier": "3.2.5",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.1.3"

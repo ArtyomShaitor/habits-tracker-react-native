@@ -12,7 +12,6 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TouchableOpacityBase,
   TouchableWithoutFeedback,
   View,
 } from "react-native";

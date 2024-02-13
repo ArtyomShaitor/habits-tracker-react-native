@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-export const useData = <T>(
+export const useSyncedData = <T>(
   initialState: T | (() => T),
   preloadFn: () => Promise<T>,
   onChange?: (newState: T) => void,
@@ -14,6 +14,7 @@ export const useData = <T>(
 
   useEffect(() => {
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setState = useCallback<typeof _setState>(

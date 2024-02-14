@@ -11,12 +11,12 @@ jobs:
         with:
           path: main
 
-      - name: Checkout repository (current branch)
-        uses: actions/checkout@v3
+      # - name: Checkout repository (current branch)
+      #   uses: actions/checkout@v3
 
-      - name: pull
-        run: |
-          git show main
+      # - name: pull
+      #   run: |
+      #     git show main
 
       - name: Get curernt and latest versions
         id: versions

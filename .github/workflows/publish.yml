@@ -4,7 +4,7 @@ permissions:
   contents: write
 
 on:
-  push
+  workflow_dispatch
   # workflow_dispatch:
   #   inputs:
   #     logLevel:
@@ -82,5 +82,5 @@ jobs:
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: "## Expo Go QR\n🏗️${{ steps.preview.outputs.link }}\n![Expo GO](${{ steps.preview.outputs.qr }})"
+          body: "## Expo Go QR\n🏗️ ${{ steps.preview.outputs.link }}\n![Expo GO](${{ steps.preview.outputs.qr }})"
           draft: true

@@ -1,4 +1,4 @@
-name: On Pull Requests
+name: Check Version
 on: pull_request
 
 jobs:
@@ -9,14 +9,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Compare Version
+      - name: Get curernt and latest versions
+        id: versions
+        shell: bash
+        run: |
+          echo "CURRENT_VERSION=$(git show HEAD:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
+          echo "LATEST_VERSION=$(git show main:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        uses: "./.github/actions/semver-compare"
         id: compare
-        uses: sharesight/compare-package-json-version-with-latest@v2.0.0
         with:
-          repository: ${{ github.repository }}
+          currentVersion: ${{ steps.versions.outputs.CURRENT_VERSION }}
+          latestVersion: ${{ steps.versions.outputs.LATEST_VERSION }}
 
       - name: Fail if not newer
         if: steps.compare.outputs.newer != 'true'
         run: |
-          echo Version was not newer: ${{ steps.compare.outputs.current_version }} vs. ${{ steps.compare.outputs.latest_version }}
+          echo "::error Version is not newer: current=${{ steps.versions.outputs.CURRENT_VERSION }}; latest=${{ steps.versions.outputs.LATEST_VERSION }}"
           exit 1

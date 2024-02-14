@@ -1,0 +1,20 @@
+name: "Semver Check"
+description: "Check the semver version of two package.json\'s"
+inputs:
+  currentVersion:
+    description: "Current version"
+    required: true
+  latestVersion:
+    description: "Latest version"
+    required: true
+outputs:
+  matches:
+    description: "Does current version match the latest version"
+  newer:
+    description: "Is the current version newer than the latest version"
+  diff:
+    description: "major | premajor | minor | preminor | patch | prepatch | prerelease"
+
+runs:
+  using: "node20"
+  main: "index.js"

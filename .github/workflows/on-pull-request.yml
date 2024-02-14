@@ -1,4 +1,4 @@
-name: Check Version
+name: PR checks
 on: pull_request
 
 jobs:

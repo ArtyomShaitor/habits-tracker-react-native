@@ -3,31 +3,11 @@ name: Publish changes to Expo
 permissions:
   contents: write
 
-on:
-  workflow_dispatch
-  # workflow_dispatch:
-  #   inputs:
-  #     logLevel:
-  #       description: "Log level"
-  #       required: true
-  #       default: "warning"
-  #       type: choice
-  #       options:
-  #         - info
-  #         - warning
-  #         - debug
-  #     tags:
-  #       description: "Test scenario tags"
-  #       required: false
-  #       type: boolean
-  #     environment:
-  #       description: "Environment to run tests against"
-  #       type: environment
-  #       required: true
+on: workflow_dispatch
 
 jobs:
   deploy:
-    name: EAS Update
+    name: Publish and Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN

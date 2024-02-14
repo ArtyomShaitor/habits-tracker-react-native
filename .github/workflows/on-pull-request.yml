@@ -16,7 +16,7 @@ jobs:
 
       - name: pull
         run: |
-          git pull origin main:main
+          git show main
 
       - name: Get curernt and latest versions
         id: versions

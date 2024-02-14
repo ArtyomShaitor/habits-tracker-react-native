@@ -1,5 +1,8 @@
 name: Publish changes to Expo
 
+permissions:
+  contents: write
+
 on:
   push
   # workflow_dispatch:

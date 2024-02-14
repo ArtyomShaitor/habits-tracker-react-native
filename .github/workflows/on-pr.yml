@@ -1,0 +1,22 @@
+name: On Pull Requests
+on: pull_request
+
+jobs:
+  check_version:
+    name: Check the version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compare Version
+        id: compare
+        uses: sharesight/compare-package-json-version-with-latest@v2.0.0
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Fail if not newer
+        if: steps.compare.outputs.newer != 'true'
+        run: |
+          echo Version was not newer: ${{ steps.compare.outputs.current_version }} vs. ${{ steps.compare.outputs.latest_version }}
+          exit 1

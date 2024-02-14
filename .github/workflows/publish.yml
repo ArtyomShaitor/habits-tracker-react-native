@@ -1,7 +1,7 @@
 name: Publish changes to Expo
 
 on:
-  workflow_dispatch
+  push
   # workflow_dispatch:
   #   inputs:
   #     logLevel:
@@ -47,7 +47,7 @@ jobs:
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
-          token: rBNKMQ4EVwuIT1GmBI-lBSLTKHGdOFBYZp5A-x9h
+          token: ${{ secrets.EXPO_TOKEN }}
           packager: npm
 
       - name: Install dependencies

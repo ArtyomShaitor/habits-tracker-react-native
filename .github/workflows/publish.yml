@@ -1,7 +1,10 @@
 name: Publish changes to Expo
 
+permissions:
+  contents: write
+
 on:
-  push
+  workflow_dispatch
   # workflow_dispatch:
   #   inputs:
   #     logLevel:
@@ -46,6 +49,8 @@ jobs:
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
+          expo-cache: true
+          expo-version: 6.x
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
           packager: npm
@@ -55,9 +60,9 @@ jobs:
 
       - name: Publish to Expo & create a QR code
         id: preview
-        uses: expo/expo-preview-action@v1
+        uses: expo/expo-github-action/preview@v8
         with:
-          channel: pr-${{ github.event.number }}
+          command: eas update --auto
 
       - name: Get version
         id: version
@@ -65,10 +70,17 @@ jobs:
         run: |
           echo "CURRENT=$(git show HEAD:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.version.outputs.CURRENT }}
+
       - name: Create release
         uses: ncipollo/release-action@v1.14.0
         with:
-          commit: HEAD
-          body: "### LOL KEK\n ${{ steps.preview.outputs.EXPO_QR_CODE_URL }}"
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: "## Expo Go QR\n🏗️ ${{ steps.preview.outputs.link }}\n![Expo GO](${{ steps.preview.outputs.qr }})"
           draft: true
-          tag: "v${{ steps.version.outputs.CURRENT }}"

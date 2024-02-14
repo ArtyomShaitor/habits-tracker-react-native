@@ -11,6 +11,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: git branch main remotes/origin/main
+
       - name: Get curernt and latest versions
         id: versions
         shell: bash

@@ -75,12 +75,12 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: v${{ steps.version.outcome.CURRENT }}
+          custom_tag: v${{ steps.version.outputs.CURRENT }}
 
       - name: Create release
         uses: ncipollo/release-action@v1.14.0
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: "### LOL KEK\n ${{ steps.preview.outputs.qr }}"
+          body: "### Expo Go QR\n ![Expo GO](${{ steps.preview.outputs.qr }})"
           draft: true

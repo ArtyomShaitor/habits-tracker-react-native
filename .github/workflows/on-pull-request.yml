@@ -6,13 +6,10 @@ jobs:
     name: Check the version
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (main)
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: main
-
-      - name: Checkout repository (current branch)
-        uses: actions/checkout@v3
+          fetch-depth: 0
 
       - name: Get curernt and latest versions
         id: versions

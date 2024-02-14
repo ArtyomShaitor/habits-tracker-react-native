@@ -1,0 +1,74 @@
+name: Publish changes to Expo
+
+on:
+  workflow_dispatch
+  # workflow_dispatch:
+  #   inputs:
+  #     logLevel:
+  #       description: "Log level"
+  #       required: true
+  #       default: "warning"
+  #       type: choice
+  #       options:
+  #         - info
+  #         - warning
+  #         - debug
+  #     tags:
+  #       description: "Test scenario tags"
+  #       required: false
+  #       type: boolean
+  #     environment:
+  #       description: "Environment to run tests against"
+  #       type: environment
+  #       required: true
+
+jobs:
+  deploy:
+    name: EAS Update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: rBNKMQ4EVwuIT1GmBI-lBSLTKHGdOFBYZp5A-x9h
+          packager: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Publish to Expo & create a QR code
+        id: preview
+        uses: expo/expo-preview-action@v1
+        with:
+          channel: pr-${{ github.event.number }}
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          echo "CURRENT=$(git show HEAD:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
+
+      - name: Create release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          commit: HEAD
+          body: "### LOL KEK\n ${{ steps.preview.outputs.EXPO_QR_CODE_URL }}"
+          draft: true
+          tag: "v${{ steps.version.outputs.CURRENT }}"

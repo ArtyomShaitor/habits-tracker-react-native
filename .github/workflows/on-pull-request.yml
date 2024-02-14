@@ -1,0 +1,33 @@
+name: Check Version
+on: pull_request
+
+jobs:
+  check_version:
+    name: Check the version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get curernt and latest versions
+        id: versions
+        shell: bash
+        run: |
+          git branch main remotes/origin/main
+          echo "CURRENT_VERSION=$(git show HEAD:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
+          echo "LATEST_VERSION=$(git show main:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        uses: "./.github/actions/semver-compare"
+        id: compare
+        with:
+          currentVersion: ${{ steps.versions.outputs.CURRENT_VERSION }}
+          latestVersion: ${{ steps.versions.outputs.LATEST_VERSION }}
+
+      - name: Fail if not newer
+        if: steps.compare.outputs.newer != 'true'
+        run: |
+          echo "::error Version is not newer: current=${{ steps.versions.outputs.CURRENT_VERSION }}; latest=${{ steps.versions.outputs.LATEST_VERSION }}"
+          exit 1

@@ -16,6 +16,11 @@ jobs:
           echo "CURRENT_VERSION=$(git show HEAD:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
           echo "LATEST_VERSION=$(git show main:package.json | grep -o '"version": *"[^"]*"' | grep -o '"[^"]*"$' | sed 's/"//g')" >> $GITHUB_OUTPUT
 
+      - name: Debug
+        run: |
+          echo "current = ${{ steps.versions.outputs.CURRENT_VERSION }}"
+          echo "latest = ${{ steps.versions.outputs.LATEST_VERSION }}"
+
       - name: Compare versions
         uses: "./.github/actions/semver-compare"
         id: compare

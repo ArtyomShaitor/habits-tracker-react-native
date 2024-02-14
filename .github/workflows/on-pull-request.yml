@@ -6,7 +6,12 @@ jobs:
     name: Check the version
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (main)
+        uses: actions/checkout@v3
+        with:
+          ref: "main"
+
+      - name: Checkout repository (current branch)
         uses: actions/checkout@v3
 
       - name: Get curernt and latest versions

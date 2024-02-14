@@ -57,9 +57,9 @@ jobs:
 
       - name: Publish to Expo & create a QR code
         id: preview
-        uses: expo/expo-preview-action@v1
+        uses: expo/expo-github-action/preview@v8
         with:
-          channel: pr-${{ github.event.number }}
+          command: eas update --auto
 
       - name: Get version
         id: version
@@ -71,6 +71,6 @@ jobs:
         uses: ncipollo/release-action@v1.14.0
         with:
           commit: HEAD
-          body: "### LOL KEK\n ${{ steps.preview.outputs.EXPO_QR_CODE_URL }}"
+          body: "### LOL KEK\n ${{ steps.preview.outputs.qr }}"
           draft: true
           tag: "v${{ steps.version.outputs.CURRENT }}"

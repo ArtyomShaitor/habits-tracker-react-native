@@ -25,7 +25,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^14.1.0",
     "react-native-uuid": "^2.0.1",
-    "expo-haptics": "~12.8.1"
+    "expo-haptics": "~12.8.1",
+    "expo-updates": "~0.24.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

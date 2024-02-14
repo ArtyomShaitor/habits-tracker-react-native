@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "myHabits",
-    "slug": "myHabits",
+    "name": "MyHabitsApp",
+    "slug": "my-habits-app",
+    "description": "Daily habits tracker app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -23,6 +26,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9dcf4886-f399-42f6-ac12-19e09fa5b9aa"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9dcf4886-f399-42f6-ac12-19e09fa5b9aa"
     }
   }
 }

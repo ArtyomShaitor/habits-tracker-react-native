@@ -27,14 +27,14 @@ export const getDateString = (date: Date): string => {
   return formattedDate;
 };
 
-export const isToday = (date: Date | Day) => {
+export const isToday = (date: Date | Day, todayDate: Date = getNow()) => {
   if (date instanceof Date) {
-    const todayFormatted = getDateString(getNow());
+    const todayFormatted = getDateString(todayDate);
     const dateFormatted = getDateString(date);
 
     return todayFormatted === dateFormatted;
   } else {
-    const todayIndex = getNow().getDay();
+    const todayIndex = todayDate.getDay();
 
     const dayIndex = DAYS_OF_WEEK.indexOf(date);
     if (dayIndex < 0) {

@@ -2,7 +2,27 @@ name: PR checks
 on: pull_request
 
 jobs:
-  check_version:
+  tests:
+    name: "Run unit tests"
+    runs-on: ubuntu-latest
+    needs: [check-version]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Jest tests
+        run: npm test
+
+  check-version:
     name: Check the version
     runs-on: ubuntu-latest
     steps:
